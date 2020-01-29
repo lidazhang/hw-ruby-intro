@@ -43,10 +43,11 @@ end
 
 def starts_with_consonant? s
   return false if s.length ==0
-  return true if s[0].match(/\W/) != nil
-  return true if s[0].match(/\d/) != nil
+  return false if s[0].match(/\W/) != nil
+  return false if s[0].match(/\d/) != nil
   arr = ['a','e','i','o','u','A','E','I','O','U']
-  return arr.include? s[0]
+  return false if arr.include?(s[0])
+  return true
 end
 
 def binary_multiple_of_4? s
@@ -64,18 +65,25 @@ end
 # Part 3
 class BookInStock
   attr_reader :isbn, :price
-  def initialize(isbn, price)
+  def initialize(isbn_input, price_input)
     # Instance variables
-    self.isbn = isbn
-    self.price = price
+    self.isbn = isbn_input
+    self.price = price_input
+  end
+  def isbn=(isbn_input)
+    if isbn_input.length ==0
+      raise ArgumentError.new('Empty ISBN number.')
+    else
+      @isbn = isbn_input
+    end
+  end
 
-    raise ArgumentError.new(
-      'Empty ISBN number.'
-    ) if @isbn ==''
-
-    raise ArgumentError.new(
-      'Negative or zero price.'
-    ) if @price <= 0
+  def price=(price_input)
+    if price_input <= 0
+      raise ArgumentError.new('Negative or zero price.')
+    else
+      @price = price_input
+    end
   end
 
   def price_as_string
