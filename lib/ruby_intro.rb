@@ -42,11 +42,17 @@ def hello(name)
 end
 
 def starts_with_consonant? s
+  return false if s.length ==0
+  return true if s[0].match(/\W/) != nil
+  return true if s[0].match(/\d/) != nil
   arr = ['a','e','i','o','u','A','E','I','O','U']
   return arr.include? s[0]
 end
 
 def binary_multiple_of_4? s
+  return false if s.length == 0
+  return false if s.match(/\D/) != nil
+  return false if s.match(/[2-9]/) != nil
   num = s.to_i(2)
   if num % 4 == 0
     return true
@@ -57,10 +63,11 @@ end
 
 # Part 3
 class BookInStock
+  attr_reader :isbn, :price
   def initialize(isbn, price)
     # Instance variables
-    @isbn = isbn
-    @price = price
+    self.isbn = isbn
+    self.price = price
 
     raise ArgumentError.new(
       'Empty ISBN number.'
